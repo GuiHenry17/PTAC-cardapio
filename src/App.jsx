@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./globals.css";
 
 export default function App() {
 
@@ -29,16 +30,38 @@ export default function App() {
         },
     ]);
 
+    const [listaPedidos, setPedidos] = useState([]);
 
-    
+    const adicionarPedido = (item) => {       
+        setPedidos([...listaPedidos, item]);
+    };
+
+    const removerPedido = (id) => {
+        let listaAux = listaPedidos.filter((produto) => produto.id !== id);
+        setPedidos(listaAux);
+    };
 
     return (
         <div className="bloco-principal">
             <div className="bloco-produtos">
-              
+                {listaProdutos.map((p) => (
+                    <div key={p.id}>
+                        <img src={p.imagem} alt={p.item} />
+                        <p>{p.item}</p>
+                        <p>{p.preco}</p>
+                        <button onClick={() => adicionarPedido(p)}>ADD</button>
+                    </div>
+                ))}
             </div>
             <div className="bloco-pedidos">
-                
+                {listaPedidos.map((p) => (
+                    <div key={p.id}>
+                        <img src={p.imagem} alt={p.item} />
+                        <p>{p.item}</p>
+                        <p>{p.preco}</p>
+                        <button onClick={() => removerPedido(p.id)}>Remover</button>
+                    </div>
+                ))}
             </div>
         </div>
     );
