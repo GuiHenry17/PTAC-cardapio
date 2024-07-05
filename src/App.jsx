@@ -1,4 +1,6 @@
 import { useState } from "react";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
 import "./globals.css";
 
 export default function App() {
@@ -32,13 +34,27 @@ export default function App() {
 
     const [listaPedidos, setPedidos] = useState([]);
 
-    const adicionarPedido = (item) => {       
+    const adicionarPedido = (item) => {      
+        toast("Produto Adicionado!"); 
         setPedidos([...listaPedidos, item]);
     };
 
     const removerPedido = (id) => {
-        let listaAux = listaPedidos.filter((produto) => produto.id !== id);
+        let removeu = false
+        let listaAux = listaPedidos.filter((produto) =>{ 
+            if (removeu == false){
+                if(produto.id !== id){
+                    return produto
+                }else{
+                    removeu = true;
+                    return null
+                }
+            }else{
+                return produto
+            }
+        });
         setPedidos(listaAux);
+        toast("Produto Removido!")
     };
 
     return (
@@ -49,7 +65,7 @@ export default function App() {
                         <img src={p.imagem} alt={p.item} />
                         <p>{p.item}</p>
                         <p>{p.preco}</p>
-                        <button onClick={() => adicionarPedido(p)}>ADD</button>
+                        <button onClick={() => adicionarPedido(p)}>ADICIONAR</button>
                     </div>
                 ))}
             </div>
@@ -63,6 +79,7 @@ export default function App() {
                     </div>
                 ))}
             </div>
+            <ToastContainer/>
         </div>
     );
 }
